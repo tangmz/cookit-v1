@@ -11,6 +11,7 @@ class AddRecipeStep extends StatefulWidget {
 }
 
 class _AddRecipeStepState extends State<AddRecipeStep> {
+  var _cards = Get.put(MyCardList());
   @mustCallSuper
   @protected
   @override
@@ -20,8 +21,6 @@ class _AddRecipeStepState extends State<AddRecipeStep> {
 
   @override
   Widget build(BuildContext context) {
-    var _cards = Get.put(MyCardList());
-
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.end,

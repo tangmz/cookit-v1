@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter/foundation.dart' as foundation;
 import 'package:proximity_sensor/proximity_sensor.dart';
+import 'package:floating_draggable_widget/floating_draggable_widget.dart';
 
 import '../models/posts_model.dart';
+import '../widgets/cooking_control_buttons.dart';
+import '../widgets/timer.dart';
 
 class CookingPage extends StatefulWidget {
   final Post selectedPost;
@@ -55,92 +58,91 @@ class _CookingPageState extends State<CookingPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        body: Column(children: [
-          SizedBox(
-            height: 5,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SmoothPageIndicator(
-                controller: _pageController,
-                count: widget.selectedPost.steps.length,
-                effect: SwapEffect(
-                    dotColor: (Colors.grey[500])!,
-                    activeDotColor: Theme.of(context).primaryColor,
-                    dotHeight: 8,
-                    dotWidth: 20,
-                    spacing: 5),
-              ),
-            ],
-          ),
-          Expanded(
-            child: PageView.builder(
-              controller: _pageController,
-              itemCount: widget.selectedPost.steps.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        (index + 1).toString(),
-                        style: TextStyle(
-                            fontSize: 50, fontWeight: FontWeight.bold),
-                      ),
-                      Image.network(widget.selectedPost.posterSrc),
-                      Text(
-                        widget.selectedPost.steps[index],
-                        style: TextStyle(fontSize: 20),
-                      )
-                    ],
-                  ),
-                );
-              },
-              onPageChanged: (value) {
-                setState(() {
-                  _pageIndex = value;
-                });
-              },
+      child: FloatingDraggableWidget(
+        mainScreenWidget: Scaffold(
+          body: Column(children: [
+            SizedBox(
+              height: 5,
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton.icon(
-                  onPressed: _pageIndex == 0
-                      ? null
-                      : () => _pageController.previousPage(
-                          duration: Duration(milliseconds: 300),
-                          curve: Curves.easeIn),
-                  icon: Icon(Icons.arrow_back_ios_new),
-                  label: Text("Previous"),
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).primaryColor,
-                      fixedSize: Size(150, 40))),
-              ElevatedButton.icon(
-                  onPressed: _pageIndex == widget.selectedPost.steps.length - 1
-                      ? () => Navigator.pop(context)
-                      : () => _pageController.nextPage(
-                          duration: Duration(milliseconds: 300),
-                          curve: Curves.easeIn),
-                  icon: _pageIndex == widget.selectedPost.steps.length - 1
-                      ? Icon(Icons.check)
-                      : Icon(Icons.arrow_forward_ios),
-                  label: _pageIndex == widget.selectedPost.steps.length - 1
-                      ? Text("Done")
-                      : Text("Next"),
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          _pageIndex == widget.selectedPost.steps.length - 1
-                              ? Colors.green
-                              : Theme.of(context).primaryColor,
-                      fixedSize: Size(150, 40))),
-            ],
-          )
-        ]),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SmoothPageIndicator(
+                  controller: _pageController,
+                  count: widget.selectedPost.steps.length,
+                  effect: ScrollingDotsEffect(
+                      dotColor: (Colors.grey[500])!,
+                      activeDotColor: Theme.of(context).primaryColor,
+                      dotHeight: 8,
+                      dotWidth: 20,
+                      spacing: 5),
+                ),
+              ],
+            ),
+
+            //Body of the cooking steps page
+            cooking_step_body(),
+
+            //control buttons
+            cooking_step_control_buttons(
+                pageIndex: _pageIndex,
+                pageController: _pageController,
+                widget: widget)
+          ]),
+        ),
+        floatingWidget: FloatingActionButton(
+          backgroundColor: Theme.of(context).disabledColor,
+          onPressed: () {
+            showModalBottomSheet(
+              context: context,
+              backgroundColor: Colors.transparent,
+              builder: (context) => TimerWatch(),
+            );
+          },
+          tooltip: 'Timer',
+          child: const Icon(Icons.timer_outlined),
+        ),
+        autoAlign: true,
+        speed: 1,
+        floatingWidgetHeight: 50,
+        floatingWidgetWidth: 50,
+        screenHeight: MediaQuery.of(context).size.height - 25,
+      ),
+    );
+  }
+
+  Expanded cooking_step_body() {
+    return Expanded(
+      child: PageView.builder(
+        controller: _pageController,
+        itemCount: widget.selectedPost.steps.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  (index + 1).toString(),
+                  style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    child: Center(
+                        child: Image.network(widget.selectedPost.posterSrc))),
+                Text(
+                  widget.selectedPost.steps[index],
+                  style: TextStyle(fontSize: 20),
+                )
+              ],
+            ),
+          );
+        },
+        onPageChanged: (value) {
+          setState(() {
+            _pageIndex = value;
+          });
+        },
       ),
     );
   }

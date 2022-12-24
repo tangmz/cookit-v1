@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.cookit_mobile">
    <application
-        android:label="cookit_mobile"
+        android:label="Cookit"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

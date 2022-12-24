@@ -31,6 +31,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  #Notification Service
+  flutter_local_notifications: ^13.0.0
+  
   #State Dependencies
   get: ^4.6.5
 
@@ -42,6 +45,7 @@ dependencies:
   flutter_staggered_grid_view: ^0.6.2
   transparent_image: ^1.0.0
   rating_dialog: ^2.0.4
+  floating_draggable_widget: ^2.1.2
   
   #Animations-Effect Dependencies
   animations: ^2.0.7
