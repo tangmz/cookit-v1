@@ -1,15 +1,13 @@
-import 'package:cookit_mobile/screens/add_recipe_page.dart';
 import 'package:cookit_mobile/screens/bottom_navigation_tab.dart';
-import 'package:cookit_mobile/screens/profile_page.dart';
-
-import './screens/home_page.dart';
-import './screens/profile_page.dart';
-import './screens/add_recipe_page.dart';
-import './widgets/post_grid.dart';
-import './screens/bottom_navigation_tab.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cookit_mobile/firebase_options.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 

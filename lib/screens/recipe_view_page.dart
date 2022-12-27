@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 
@@ -21,6 +22,7 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
 
   void _showRatingAppDialog() {
     final _ratingDialog = RatingDialog(
+      starSize: 30,
       starColor: Theme.of(context).primaryColor,
       title: const Text("Rate the Recipe"),
       submitButtonText: 'Submit',
@@ -98,7 +100,7 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
           {
             floatingTitle = "Cook Now";
             floatingOnPressed =
-                () => Navigator.of(context).push(MaterialPageRoute(
+                () => Navigator.of(context).push(CupertinoPageRoute(
                     builder: (context) => CookingPage(
                           selectedPost: widget.selectedPost,
                         )));
@@ -108,7 +110,7 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
           {
             floatingTitle = "Cook Now";
             floatingOnPressed =
-                () => Navigator.of(context).push(MaterialPageRoute(
+                () => Navigator.of(context).push(CupertinoPageRoute(
                     builder: (context) => CookingPage(
                           selectedPost: widget.selectedPost,
                         )));

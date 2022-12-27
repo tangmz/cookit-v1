@@ -48,8 +48,16 @@ class _TimerWatchState extends State<TimerWatch> {
                         ),
                       ),
                       TextButton(
-                        onPressed: () => controller.startTimer(timerSeconds),
-                        child: Text("Start"),
+                        onPressed: () {
+                          if (timerSeconds > 0)
+                            controller.startTimer(timerSeconds);
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("Start"),
+                          ],
+                        ),
                       ),
                     ],
                   )
@@ -62,7 +70,12 @@ class _TimerWatchState extends State<TimerWatch> {
                       ),
                       TextButton(
                         onPressed: () => controller.onClose(),
-                        child: Text("Stop"),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("Stop"),
+                          ],
+                        ),
                       ),
                     ],
                   ),

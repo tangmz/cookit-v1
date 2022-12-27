@@ -91,7 +91,7 @@ class _CookingPageState extends State<CookingPage> {
           ]),
         ),
         floatingWidget: FloatingActionButton(
-          backgroundColor: Theme.of(context).disabledColor,
+          backgroundColor: Theme.of(context).primaryColor.withOpacity(0.8),
           onPressed: () {
             showModalBottomSheet(
               context: context,

@@ -1,8 +1,8 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/post_grid.dart';
-import '../screens/profile_page.dart';
+import '../screens/search_page.dart';
 import '../widgets/home_categories.dart';
 import '../widgets/home_body.dart';
 
@@ -33,7 +33,8 @@ class HomePage extends StatelessWidget {
                     EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 5),
                 child: GestureDetector(
                   //==============INSERT SOMETHING HERE==============
-                  onTap: () {},
+                  onTap: () => Navigator.push(context,
+                      CupertinoPageRoute(builder: (context) => SearchPage())),
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.05,
                     width: MediaQuery.of(context).size.width,

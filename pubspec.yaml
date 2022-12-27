@@ -46,6 +46,7 @@ dependencies:
   transparent_image: ^1.0.0
   rating_dialog: ^2.0.4
   floating_draggable_widget: ^2.1.2
+  image_picker: ^0.8.6
   
   #Animations-Effect Dependencies
   animations: ^2.0.7
@@ -53,6 +54,12 @@ dependencies:
   liquid_pull_to_refresh: ^3.0.1
   animated_text_kit: ^4.2.2
   smooth_page_indicator: ^1.0.0+2
+
+  #Firebase Dependencies
+  firebase_core: ^2.4.0
+  cloud_firestore: ^4.3.0
+  firebase_auth: ^4.2.3
+  firebase_storage: ^11.0.9
 
 
   # The following adds the Cupertino Icons font to your application.
