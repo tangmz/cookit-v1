@@ -47,6 +47,7 @@ dependencies:
   rating_dialog: ^2.0.4
   floating_draggable_widget: ^2.1.2
   image_picker: ^0.8.6
+  animated_login: ^1.5.5
   
   #Animations-Effect Dependencies
   animations: ^2.0.7

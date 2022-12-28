@@ -7,17 +7,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class Config {
-  FirebaseFirestore dbInstance = FirebaseFirestore.instance;
-  FirebaseAuth authInstance = FirebaseAuth.instance;
-  late UserCredential authResult;
+  static FirebaseFirestore dbInstance = FirebaseFirestore.instance;
+  static FirebaseAuth authInstance = FirebaseAuth.instance;
+  static late UserCredential authResult;
 
-  void login(String email, String password) async {
+  static void login(String email, String password) async {
     authResult = await authInstance.signInWithEmailAndPassword(
         email: email, password: password);
   }
 
-  void register(String email, String password, String username, File profile,
-      BuildContext ctx) async {
+  static void register(String email, String password, String username,
+      File? profile, BuildContext ctx) async {
+    if (profile == null) {
+      ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
+        content: Text('Please Provide a Profile Picture!'),
+        backgroundColor: Theme.of(ctx).errorColor,
+      ));
+      return;
+    }
     try {
       authResult = await authInstance.createUserWithEmailAndPassword(
           email: email, password: password);
@@ -44,6 +51,31 @@ class Config {
           backgroundColor: Theme.of(ctx).errorColor,
         ));
       }
+    }
+  }
+
+  static void forgotPassword(String email, BuildContext ctx) async {
+    if (email.trim() != '') {
+      authInstance.sendPasswordResetEmail(email: email.trim()).then((_) {
+        return ScaffoldMessenger.of(ctx).showSnackBar(
+          SnackBar(
+            content: Text('Password Reset Email Has Been Sent!'),
+            backgroundColor: Colors.green[700],
+          ),
+        );
+      }).onError((error, stackTrace) {
+        return ScaffoldMessenger.of(ctx).showSnackBar(
+          SnackBar(
+            content: Text('An Error Has Occurred!'),
+            backgroundColor: Theme.of(ctx).errorColor,
+          ),
+        );
+      });
+    } else {
+      ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
+        content: Text('Please Enter an Email Address!'),
+        backgroundColor: Theme.of(ctx).errorColor,
+      ));
     }
   }
 }

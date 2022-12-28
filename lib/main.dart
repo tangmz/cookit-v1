@@ -1,7 +1,11 @@
 import 'package:cookit_mobile/screens/bottom_navigation_tab.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cookit_mobile/firebase_options.dart';
 import 'package:flutter/material.dart';
+import 'package:cookit_mobile/screens/auth_page.dart';
+
+import './utils/config.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,13 +25,26 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.yellow[700],
       ),
-      // home: HomePage(),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => BottomNavigationTab(),
-        // AddRecipePage.routeName: (context) => AddRecipePage(),
-        // ProfilePage.routeName: (context) => ProfilePage(),
-      },
+      home: StreamBuilder(
+          stream: Config.authInstance.authStateChanges(),
+          builder: (context, userSnapshot) {
+            if (userSnapshot.connectionState == ConnectionState.waiting) {
+              // return BottomNavigationTab();
+              return Center(
+                child: Text('Loading'),
+              );
+            }
+            if (userSnapshot.hasData) {
+              return BottomNavigationTab();
+            }
+            return AuthPage();
+          }),
+      // initialRoute: '/',
+      // routes: {
+      // '/': (context) => AuthPage(),
+      // AddRecipePage.routeName: (context) => AddRecipePage(),
+      // ProfilePage.routeName: (context) => ProfilePage(),
+      // },
     );
   }
 }

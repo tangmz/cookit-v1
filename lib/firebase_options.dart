@@ -17,24 +17,15 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -52,11 +43,41 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyDNb8ABc68tNWeJhKCOBXiFMWaGeQK_Yt0',
+    appId: '1:338484162653:web:94c8e1bef33be51c85ddb4',
+    messagingSenderId: '338484162653',
+    projectId: 'cookit-mobile',
+    authDomain: 'cookit-mobile.firebaseapp.com',
+    storageBucket: 'cookit-mobile.appspot.com',
+    measurementId: 'G-ZCY3SSYZ7R',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCh6bwBS2OKMvt0as-lWChEJeubx_g3Czc',
     appId: '1:338484162653:android:e3d7c00a893ea84185ddb4',
     messagingSenderId: '338484162653',
     projectId: 'cookit-mobile',
     storageBucket: 'cookit-mobile.appspot.com',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyCUHsaJIZC5eJdoFGKm6KtE9_3CdK-C3f4',
+    appId: '1:338484162653:ios:3b8ff478b0b9622285ddb4',
+    messagingSenderId: '338484162653',
+    projectId: 'cookit-mobile',
+    storageBucket: 'cookit-mobile.appspot.com',
+    iosClientId: '338484162653-ptjicsu1837qk2b2alqe8uf6o9j482qv.apps.googleusercontent.com',
+    iosBundleId: 'com.example.cookitMobile',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyCUHsaJIZC5eJdoFGKm6KtE9_3CdK-C3f4',
+    appId: '1:338484162653:ios:3b8ff478b0b9622285ddb4',
+    messagingSenderId: '338484162653',
+    projectId: 'cookit-mobile',
+    storageBucket: 'cookit-mobile.appspot.com',
+    iosClientId: '338484162653-ptjicsu1837qk2b2alqe8uf6o9j482qv.apps.googleusercontent.com',
+    iosBundleId: 'com.example.cookitMobile',
   );
 }

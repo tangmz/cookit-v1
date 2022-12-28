@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:cookit_mobile/utils/config.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/double_layer_text.dart';
@@ -21,6 +22,16 @@ class ProfilePageHeader extends SliverPersistentHeaderDelegate {
       children: [
         buildAppBar(shrinkOffset),
         buildBackground(shrinkOffset),
+        Positioned(
+          top: 3,
+          right: 0,
+          child: IconButton(
+            tooltip: 'Logout',
+            onPressed: () => Config.authInstance.signOut(),
+            icon: Icon(Icons.logout_rounded),
+            color: Theme.of(context).canvasColor,
+          ),
+        )
       ],
     );
   }
