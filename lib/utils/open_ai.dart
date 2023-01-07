@@ -1,4 +1,9 @@
-import 'package:flutter/material.dart';
+// Programmer name: Tang Ming Ze
+// Program name: Cookit
+// Description: An Intelligent Recipe Content Sharing Platform
+// First Written on: 20/10/2022
+// Edited on: 1/6/2023
+
 import 'package:openai_client/openai_client.dart';
 
 class OpenAI {
@@ -11,7 +16,7 @@ class OpenAI {
   Future<String> generateResult(String query) async {
     final completion = await smartAIClient.completions
         .create(
-          model: 'text-ada-001',
+          model: 'text-davinci-003',
           prompt: query,
           temperature: 0.7,
           maxTokens: 300,

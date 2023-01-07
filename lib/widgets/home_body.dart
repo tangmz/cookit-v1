@@ -1,10 +1,14 @@
+// Programmer name: Tang Ming Ze
+// Program name: Cookit
+// Description: An Intelligent Recipe Content Sharing Platform
+// First Written on: 20/10/2022
+// Edited on: 1/6/2023
+
+import 'package:cookit_mobile/utils/config.dart';
 import 'package:flutter/material.dart';
-import 'package:animations/animations.dart';
 
 import '../models/posts_model.dart';
-import '../screens/recipe_view_page.dart';
-import './popular_tile.dart';
-import './post_tile.dart';
+import 'popular_grid.dart';
 
 class HomeBody extends StatefulWidget {
   const HomeBody({super.key});
@@ -31,30 +35,23 @@ class _HomeBodyState extends State<HomeBody> {
             ),
           ),
         ),
-        ListView.builder(
-          primary: false,
-          shrinkWrap: true,
-          itemCount: widget.allPost.length,
-          itemBuilder: (context, index) {
-            return OpenContainer(
-              closedElevation: 0,
-              closedColor: Colors.grey.shade50,
-              closedBuilder: (context, VoidCallback openContainer) =>
-                  (PopularTile(
-                currentPost: widget.allPost[index],
-                onClicked: openContainer,
-              )),
-              openBuilder: (context, VoidCallback _) =>
-                  RecipeViewPage(selectedPost: widget.allPost[index]),
-            );
-            // return PopularTile(
-            //   currentPost: widget.allPost[index],
-            // );
-          },
-          // separatorBuilder: (BuildContext context, int index) {
-          //   return Divider();
-          // },
-        )
+        StreamBuilder(
+            stream: Config.dbInstance
+                .collection('recipePosts')
+                .withConverter(
+                  fromFirestore: Post.fromFirestore,
+                  toFirestore: (postItem, options) => postItem.toFirestore(),
+                )
+                .orderBy('favCount', descending: true)
+                .orderBy('postRatings', descending: true)
+                .limit(10)
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting ||
+                  snapshot.data == null) return SizedBox.shrink();
+              return PopularGrid(
+                  allPost: snapshot.data!.docs.map((e) => e.data()).toList());
+            }),
       ],
     );
   }

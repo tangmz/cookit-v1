@@ -1,8 +1,14 @@
+// Programmer name: Tang Ming Ze
+// Program name: Cookit
+// Description: An Intelligent Recipe Content Sharing Platform
+// First Written on: 20/10/2022
+// Edited on: 1/6/2023
+
 import 'package:flutter/material.dart';
 import 'package:cookit_mobile/screens/cooking_page.dart';
 
-class cooking_step_control_buttons extends StatelessWidget {
-  const cooking_step_control_buttons({
+class CookingStepControlButtons extends StatelessWidget {
+  const CookingStepControlButtons({
     Key? key,
     required int pageIndex,
     required PageController pageController,
@@ -32,20 +38,20 @@ class cooking_step_control_buttons extends StatelessWidget {
                 backgroundColor: Theme.of(context).primaryColor,
                 fixedSize: Size(150, 40))),
         ElevatedButton.icon(
-            onPressed: _pageIndex == widget.selectedPost.steps.length - 1
+            onPressed: _pageIndex == widget.selectedPost.steps!.length - 1
                 ? () => Navigator.pop(context)
                 : () => _pageController.nextPage(
                     duration: Duration(milliseconds: 300),
                     curve: Curves.easeIn),
-            icon: _pageIndex == widget.selectedPost.steps.length - 1
+            icon: _pageIndex == widget.selectedPost.steps!.length - 1
                 ? Icon(Icons.check)
                 : Icon(Icons.arrow_forward_ios),
-            label: _pageIndex == widget.selectedPost.steps.length - 1
+            label: _pageIndex == widget.selectedPost.steps!.length - 1
                 ? Text("Done")
                 : Text("Next"),
             style: ElevatedButton.styleFrom(
                 backgroundColor:
-                    _pageIndex == widget.selectedPost.steps.length - 1
+                    _pageIndex == widget.selectedPost.steps!.length - 1
                         ? Colors.green
                         : Theme.of(context).primaryColor,
                 fixedSize: Size(150, 40))),

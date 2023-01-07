@@ -41,14 +41,19 @@ dependencies:
   proximity_sensor: ^1.0.4
   pexels_null_safety: ^0.1.2
   openai_client: ^0.0.3
+  flutter_tts: ^3.6.3
+  flutter_network_connectivity: ^0.0.6
 
   #Widgets Dependencies
   flutter_staggered_grid_view: ^0.6.2
-  transparent_image: ^1.0.0
+  simple_tags: ^0.0.4
   rating_dialog: ^2.0.4
   floating_draggable_widget: ^2.1.2
   image_picker: ^0.8.6
   animated_login: ^1.5.5
+  recase: ^4.1.0
+  cached_network_image: ^3.2.3
+  flutter_vector_icons: ^2.0.0
   
   #Animations-Effect Dependencies
   animations: ^2.0.7
@@ -79,6 +84,18 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
 
+  flutter_launcher_icons: ^0.11.0
+  flutter_native_splash: ^2.2.16
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/cookit.png"
+
+flutter_native_splash:
+  color: "#F9B233"
+  image: assets/images/splash-cookit.png
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -91,9 +108,9 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+   - assets/images/Connection_Lost.png
+   - assets/images/No_Result.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

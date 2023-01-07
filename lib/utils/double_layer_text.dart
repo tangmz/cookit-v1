@@ -1,3 +1,9 @@
+// Programmer name: Tang Ming Ze
+// Program name: Cookit
+// Description: An Intelligent Recipe Content Sharing Platform
+// First Written on: 20/10/2022
+// Edited on: 1/6/2023
+
 import 'package:flutter/material.dart';
 
 class DoubleText extends StatelessWidget {
@@ -21,25 +27,31 @@ class DoubleText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: alignment,
-      children: [
-        Text(
-            style: TextStyle(
-                fontSize: topSize,
-                color: textColor,
-                fontWeight: FontWeight.bold),
-            topText),
-        SizedBox(
-          height: spacing,
-        ),
-        Text(
-            style: TextStyle(
-                fontSize: bottomSize,
-                color: textColor,
-                fontWeight: FontWeight.bold),
-            bottomText),
-      ],
+    return Flexible(
+      child: Column(
+        crossAxisAlignment: alignment,
+        children: [
+          Text(
+              style: TextStyle(
+                  fontSize: topSize,
+                  color: textColor,
+                  fontWeight: FontWeight.bold,
+                  overflow: TextOverflow.ellipsis),
+              maxLines: 1,
+              topText),
+          SizedBox(
+            height: spacing,
+          ),
+          Text(
+              style: TextStyle(
+                  fontSize: bottomSize,
+                  color: textColor,
+                  fontWeight: FontWeight.bold,
+                  overflow: TextOverflow.ellipsis),
+              maxLines: 1,
+              bottomText),
+        ],
+      ),
     );
   }
 }

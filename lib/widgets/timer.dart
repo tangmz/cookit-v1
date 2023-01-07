@@ -1,3 +1,9 @@
+// Programmer name: Tang Ming Ze
+// Program name: Cookit
+// Description: An Intelligent Recipe Content Sharing Platform
+// First Written on: 20/10/2022
+// Edited on: 1/6/2023
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';

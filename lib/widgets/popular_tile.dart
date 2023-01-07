@@ -1,7 +1,16 @@
+// Programmer name: Tang Ming Ze
+// Program name: Cookit
+// Description: An Intelligent Recipe Content Sharing Platform
+// First Written on: 20/10/2022
+// Edited on: 1/6/2023
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:transparent_image/transparent_image.dart';
+import 'package:get/get.dart';
 
 import '../models/posts_model.dart';
+import '../screens/bottom_navigation_tab.dart';
+import '../utils/config.dart';
 
 class PopularTile extends StatefulWidget {
   final Post currentPost;
@@ -22,46 +31,97 @@ class _PopularTileState extends State<PopularTile> {
       height: MediaQuery.of(context).size.height * 0.25,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        // border: Border.all(color: Colors.red, width: 2),
         borderRadius: BorderRadius.all(Radius.circular(20)),
       ),
       child: Stack(children: [
         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Container(
+          SizedBox(
             height: MediaQuery.of(context).size.height * 0.18,
             width: MediaQuery.of(context).size.width,
             child: ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(20)),
-              child: FadeInImage.memoryNetwork(
-                placeholder: kTransparentImage,
-                image: widget.currentPost.posterSrc,
+              child: CachedNetworkImage(
                 fit: BoxFit.cover,
+                imageUrl: widget.currentPost.posterSrc!,
+                errorWidget: (context, url, error) => Icon(Icons.error),
               ),
             ),
           ),
-          Flexible(
-              fit: FlexFit.tight,
-              child: Text(
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                  textAlign: TextAlign.start,
-                  overflow: TextOverflow.ellipsis,
-                  widget.currentPost.title)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Flexible(
+                  flex: 3,
+                  fit: FlexFit.tight,
+                  child: Text(
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      widget.currentPost.title!)),
+              Flexible(
+                flex: 2,
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.access_time,
+                          size: 16,
+                        ),
+                        Text(
+                          ' ${widget.currentPost.prepTime!}mins',
+                          style: TextStyle(fontSize: 14),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Icon(
+                          (widget.currentPost.postRatings == null ||
+                                  widget.currentPost.postRatings! == 0.0)
+                              ? Icons.star_outline
+                              : Icons.star,
+                          color: Colors.yellow[600],
+                          size: 16,
+                        ),
+                        Text(
+                          (widget.currentPost.postRatings == null ||
+                                  widget.currentPost.postRatings! == 0.0)
+                              ? 0.toString()
+                              : widget.currentPost.postRatings!
+                                  .toStringAsFixed(1),
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w600),
+                        ),
+                      ]),
+                ),
+              )
+            ],
+          ),
           Flexible(
               fit: FlexFit.tight,
               child: Text(
                   style: TextStyle(fontSize: 12),
                   overflow: TextOverflow.ellipsis,
-                  widget.currentPost.desc)),
+                  maxLines: 1,
+                  widget.currentPost.desc!)),
         ]),
         Positioned(
           top: 10,
           right: 12,
           child: InkWell(
             onTap: () {
-              setState(() {
-                widget.currentPost.isFavourite =
-                    !widget.currentPost.isFavourite;
-              });
+              if (BottomNavigationTab.favIDListController.favIDList.value
+                  .contains(widget.currentPost.postID)) {
+                Config.removeFromFav(widget.currentPost.postID!);
+              } else {
+                Config.addToFav(widget.currentPost.postID!);
+              }
             },
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 5),
@@ -80,27 +140,39 @@ class _PopularTileState extends State<PopularTile> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    padding: EdgeInsets.zero,
-                    constraints: BoxConstraints(),
-                    splashColor: Colors.transparent,
-                    icon: Icon(
-                      widget.currentPost.isFavourite
-                          ? Icons.favorite
-                          : Icons.favorite_outline,
-                      size: 16,
+                  Obx(
+                    () => IconButton(
+                      padding: EdgeInsets.zero,
+                      constraints: BoxConstraints(),
+                      color: Colors.black,
+                      splashColor: Colors.transparent,
+                      onPressed: () {
+                        if (BottomNavigationTab
+                            .favIDListController.favIDList.value
+                            .contains(widget.currentPost.postID)) {
+                          Config.removeFromFav(widget.currentPost.postID!);
+                        } else {
+                          Config.addToFav(widget.currentPost.postID!);
+                        }
+                      },
+                      icon: Icon(
+                        BottomNavigationTab.favIDListController.favIDList.value
+                                .contains(widget.currentPost.postID)
+                            ? Icons.favorite
+                            : Icons.favorite_outline,
+                        size: 16,
+                        color: BottomNavigationTab
+                                .favIDListController.favIDList.value
+                                .contains(widget.currentPost.postID)
+                            ? Colors.red
+                            : Theme.of(context).hintColor,
+                      ),
                     ),
-                    onPressed: () {
-                      setState(() {
-                        widget.currentPost.isFavourite =
-                            !widget.currentPost.isFavourite;
-                      });
-                    },
                   ),
                   Text(
                       style:
                           TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                      '10'),
+                      widget.currentPost.favCount.toString()),
                 ],
               ),
             ),

@@ -1,3 +1,9 @@
+// Programmer name: Tang Ming Ze
+// Program name: Cookit
+// Description: An Intelligent Recipe Content Sharing Platform
+// First Written on: 20/10/2022
+// Edited on: 1/6/2023
+
 import 'package:flutter/material.dart';
 
 import '../widgets/recipe_tab_indg.dart';
@@ -19,8 +25,6 @@ class RecipeBody extends StatefulWidget {
 class _RecipeBodyState extends State<RecipeBody>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-
-  int _selectedTab = 0;
 
   @override
   void initState() {
@@ -45,60 +49,40 @@ class _RecipeBodyState extends State<RecipeBody>
       shrinkWrap: true,
       primary: true,
       children: [
-        TabBar(controller: _tabController, labelColor: Colors.black,
-            // onTap: (index) {
-            //   setState(() {
-            //     _selectedTab = index;
-            //   });
-            // },
-            tabs: [
-              Tab(
-                text: "Ingredients",
-              ),
-              Tab(
-                text: "Info",
-              ),
-              Tab(
-                text: "Reviews",
-              ),
-            ]),
         Container(
+          margin: EdgeInsets.symmetric(horizontal: 5),
+          height: kToolbarHeight - 8.0,
+          decoration: BoxDecoration(
+            color: Colors.grey[200],
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: TabBar(
+              controller: _tabController,
+              indicator: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Color.fromARGB(255, 173, 173, 173)),
+              labelColor: Colors.white,
+              unselectedLabelColor: Colors.black,
+              tabs: [
+                Tab(
+                  text: "Ingredients",
+                ),
+                Tab(
+                  text: "Info",
+                ),
+                Tab(
+                  text: "Reviews",
+                ),
+              ]),
+        ),
+        Container(
+          padding: EdgeInsets.only(bottom: 55),
           child: [
             RecipeTabIndg(selectedPost: widget.selectedPost),
             RecipeTabInfo(selectedPost: widget.selectedPost),
             RecipeTabRev(selectedPost: widget.selectedPost),
           ][_tabController.index],
         )
-        // Builder(builder: (_) {
-        //   if (_selectedTab == 0) {
-        //     return Container(
-        //       child: RecipeTabIndg(selectedPost: widget.selectedPost),
-        //     );
-        //   } else if (_selectedTab == 1) {
-        //     return Container(
-        //       child: RecipeTabInfo(selectedPost: widget.selectedPost),
-        //     );
-        //   } else {
-        //     return Container(
-        //       child: RecipeTabRev(selectedPost: widget.selectedPost),
-        //     );
-        //   }
-        // }),
-        // RecipeTabIndg(selectedPost: widget.selectedPost),
-        // Container(
-        //   height: 800,
-        //   child: TabBarView(controller: _tabController, children: [
-        //     Container(
-        //       child: RecipeTabIndg(selectedPost: widget.selectedPost),
-        //     ),
-        //     Container(
-        //       child: RecipeTabInfo(selectedPost: widget.selectedPost),
-        //     ),
-        //     Container(
-        //       child: RecipeTabRev(selectedPost: widget.selectedPost),
-        //     )
-        //   ]),
-        // )
       ],
     );
   }

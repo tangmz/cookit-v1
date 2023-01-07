@@ -1,4 +1,8 @@
-import 'package:flutter/material.dart';
+// Programmer name: Tang Ming Ze
+// Program name: Cookit
+// Description: An Intelligent Recipe Content Sharing Platform
+// First Written on: 20/10/2022
+// Edited on: 1/6/2023
 
 class Category {
   final String icon, title;
@@ -6,7 +10,7 @@ class Category {
   Category({required this.icon, required this.title});
 }
 
-List<Category> demo_categories = [
+List<Category> categoriesList = [
   Category(
     icon:
         "https://media.istockphoto.com/id/526149521/photo/nasi-lemak-coconut-milk-rice-malaysian-cuisine.jpg?s=612x612&w=0&k=20&c=_X5WOu-uNzYmz_Sz3EWJDSZXraOzpTMXVW7e_Fdn14U=",
@@ -51,5 +55,10 @@ List<Category> demo_categories = [
     icon:
         "https://media.istockphoto.com/id/500362775/photo/tiramisu-dessert.jpg?s=612x612&w=0&k=20&c=lWH9PvaN77Oi-aBd5szdOo2hK2RBTbdi_6HY8ExCfjg=",
     title: "Pastries",
+  ),
+  Category(
+    icon:
+        "https://media.istockphoto.com/id/1267161539/vector/meal-breaks-vector-line-icon-simple-thin-line-icon-premium-quality-design-element.jpg?s=612x612&w=0&k=20&c=9RNCS0uQvtbUGXqnmK1slk2y4rOOkJlE8bJ2W2qW9tY=",
+    title: "Others",
   ),
 ];

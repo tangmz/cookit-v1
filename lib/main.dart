@@ -1,5 +1,10 @@
+// Programmer name: Tang Ming Ze
+// Program name: Cookit
+// Description: An Intelligent Recipe Content Sharing Platform
+// First Written on: 20/10/2022
+// Edited on: 1/6/2023
+
 import 'package:cookit_mobile/screens/bottom_navigation_tab.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cookit_mobile/firebase_options.dart';
 import 'package:flutter/material.dart';
@@ -21,17 +26,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Cookit',
       theme: ThemeData(
         primaryColor: Colors.yellow[700],
       ),
       home: StreamBuilder(
-          stream: Config.authInstance.authStateChanges(),
+          stream: Config.authInstance.idTokenChanges(),
           builder: (context, userSnapshot) {
             if (userSnapshot.connectionState == ConnectionState.waiting) {
               // return BottomNavigationTab();
-              return Center(
-                child: Text('Loading'),
+              return Scaffold(
+                body: Center(
+                  child: Text('Loading'),
+                ),
               );
             }
             if (userSnapshot.hasData) {
@@ -39,51 +47,6 @@ class MyApp extends StatelessWidget {
             }
             return AuthPage();
           }),
-      // initialRoute: '/',
-      // routes: {
-      // '/': (context) => AuthPage(),
-      // AddRecipePage.routeName: (context) => AddRecipePage(),
-      // ProfilePage.routeName: (context) => ProfilePage(),
-      // },
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              'counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: (() {}),
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
     );
   }
 }

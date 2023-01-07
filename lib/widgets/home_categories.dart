@@ -1,3 +1,12 @@
+// Programmer name: Tang Ming Ze
+// Program name: Cookit
+// Description: An Intelligent Recipe Content Sharing Platform
+// First Written on: 20/10/2022
+// Edited on: 1/6/2023
+
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cookit_mobile/screens/search_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/constants.dart';
@@ -12,18 +21,23 @@ class HomeCategories extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 100,
-      // decoration: BoxDecoration(border: Border.all(width: 2)),
-      // padding: EdgeInsets.symmetric(vertical: 10),
       margin: EdgeInsets.symmetric(vertical: 10),
       child: ListView.separated(
         padding: EdgeInsets.symmetric(horizontal: 10),
         physics: BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,
-        itemCount: demo_categories.length,
+        itemCount: categoriesList.length,
         itemBuilder: (context, index) => Categories(
-          icon: demo_categories[index].icon,
-          title: demo_categories[index].title,
-          press: () {},
+          icon: categoriesList[index].icon,
+          title: categoriesList[index].title,
+          press: () {
+            Navigator.push(
+                context,
+                CupertinoPageRoute(
+                  builder: (context) =>
+                      SearchPage(pageTitle: categoriesList[index].title),
+                ));
+          },
         ),
         separatorBuilder: (context, index) =>
             const SizedBox(width: defaultPadding),
@@ -46,7 +60,6 @@ class Categories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // decoration: BoxDecoration(border: Border.all(width: 2)),
       width: 85,
       padding: EdgeInsets.symmetric(vertical: 8),
       child: ElevatedButton(
@@ -62,10 +75,11 @@ class Categories extends StatelessWidget {
               vertical: defaultPadding / 2, horizontal: defaultPadding / 8),
           child: Column(
             children: [
-              Image.network(
-                icon,
+              CachedNetworkImage(
                 width: 50,
                 height: 50,
+                imageUrl: icon,
+                errorWidget: (context, url, error) => Icon(Icons.error),
               ),
               Text(
                 title,

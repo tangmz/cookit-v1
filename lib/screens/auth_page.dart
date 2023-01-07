@@ -1,8 +1,13 @@
+// Programmer name: Tang Ming Ze
+// Program name: Cookit
+// Description: An Intelligent Recipe Content Sharing Platform
+// First Written on: 20/10/2022
+// Edited on: 1/6/2023
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:animated_login/animated_login.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../utils/config.dart';
@@ -18,28 +23,43 @@ class _AuthPageState extends State<AuthPage> {
   var _initialMode = 'login';
   File? _selectedImage;
 
-  void _pickedImage() {
+  Future<void> _pickedImage() async {
     showDialog<ImageSource>(
       context: context,
-      builder: (context) =>
-          AlertDialog(content: Text("Choose an image source"), actions: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              child: Text("Camera"),
-              onPressed: () => Navigator.pop(context, ImageSource.camera),
-            ),
-            SizedBox(
-              width: 20,
-            ),
-            ElevatedButton(
-              child: Text("Gallery"),
-              onPressed: () => Navigator.pop(context, ImageSource.gallery),
-            ),
-          ],
-        )
-      ]),
+      builder: (context) => AlertDialog(
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [Text('Choose an image source')],
+          ),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(
+                          Theme.of(context).primaryColor),
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)))),
+                  child: Text("Camera"),
+                  onPressed: () => Navigator.pop(context, ImageSource.camera),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(
+                          Theme.of(context).primaryColor),
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)))),
+                  child: Text("Gallery"),
+                  onPressed: () => Navigator.pop(context, ImageSource.gallery),
+                ),
+              ],
+            )
+          ]),
     ).then((source) async {
       if (source != null) {
         final pickedFile = await ImagePicker().pickImage(source: source);
@@ -78,38 +98,41 @@ class _AuthPageState extends State<AuthPage> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: Theme.of(context).canvasColor,
-                      image: _selectedImage != null
-                          ? DecorationImage(
-                              image: FileImage(_selectedImage!),
-                              fit: BoxFit.contain)
-                          : null,
                     ),
+                    child: ClipOval(
+                        child: _selectedImage != null
+                            ? Image.file(_selectedImage!, fit: BoxFit.cover)
+                            : Icon(Icons.people)),
                   ),
                   Align(
                       alignment: Alignment.bottomCenter,
                       child: Text(
-                        "Add Profile Image",
+                        "Profile Picture",
                         style: TextStyle(
                             fontSize: 12, color: Theme.of(context).hintColor),
                       ))
                 ],
               ),
-              onTap: () {
-                _pickedImage();
+              onTap: () async {
+                await _pickedImage();
               },
             ),
-      validatePassword: false,
       onForgotPassword: (email) async {
         Config.forgotPassword(email, context);
         return null;
       },
       onLogin: (loginData) async {
-        Config.login(loginData.email, loginData.password);
+        Config.login(loginData.email, loginData.password, context);
         return null;
       },
       onSignup: (signUpData) async {
-        Config.register(signUpData.email, signUpData.confirmPassword,
-            signUpData.name, _selectedImage, context);
+        Config.register(
+            signUpData.email,
+            signUpData.password,
+            signUpData.confirmPassword,
+            signUpData.name,
+            _selectedImage,
+            context);
         return null;
       },
     );
